@@ -1,6 +1,7 @@
 ---
 import Header from '../component/header.astro';
-
+import '../styles/global.css'
+import Footer from '../component/footer.astro';
 const { titre } = Astro.props;
 ---
 
@@ -11,11 +12,11 @@ const { titre } = Astro.props;
 		<meta name="viewport" content="width=device-width" />
 		<title> {titre} </title>
     </head> 
-    <Header/>
-    <body>
-       
-        <main>
+    <body class="bg-gray-50 min-h-screen flex flex-col">
+        <Header/>
+        <main class="flex-1 w-full max-w-5xl mx-auto px-4 py-10">
             <slot />
         </main>
+        <Footer/>
     </body>
 </html>

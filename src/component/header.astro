@@ -1,4 +1,29 @@
-<nav>
-    <a href="/">Accueil</a>
-    <a href="/offres">Offres</a>
-</nav>
+<header class="bg-slate-900 text-white">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+        <span class="text-lg font-semibold">Agence Immobilière</span>
+
+        <button id="burger" class="p-2 rounded hover:bg-slate-800" aria-label="Ouvrir le menu" aria-expanded="false">
+            <span class="block w-6 h-0.5 bg-white mb-1"></span>
+            <span class="block w-6 h-0.5 bg-white mb-1"></span>
+            <span class="block w-6 h-0.5 bg-white"></span>
+        </button>
+    </div>
+
+    <div id="mobile-nav" class="hidden border-t border-slate-800">
+        <nav class="flex flex-col px-4 py-3 gap-2 text-sm bg-slate-900 max-w-5xl mx-auto">
+            <a href="/" class="hover:text-slate-200">Accueil</a>
+            <a href="/offres" class="hover:text-slate-200">Offres</a>
+            <a href="/contact" class="hover:text-slate-200">Contact</a>
+        </nav>
+    </div>
+
+    <script>
+        const burger = document.getElementById('burger');
+        const mobileNav = document.getElementById('mobile-nav');
+        const toggle = () => {
+            const isOpen = mobileNav.classList.toggle('hidden');
+            burger.setAttribute('aria-expanded', (!isOpen).toString());
+        };
+        burger?.addEventListener('click', toggle);
+    </script>
+</header>

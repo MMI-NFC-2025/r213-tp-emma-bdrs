@@ -1,9 +1,26 @@
 ---
-import '../styles/global.css'
-import Header from "../component/header.astro";
 import Layout from '../layouts/Layout.astro';
 ---
 
-<html lang="en">
-	<Layout titre="Accueil">
-    <h1>Accueil</h1> </Layout>
+<Layout titre="Agence Immobilière">
+    <section class="text-center space-y-4">
+        <h1 class="text-4xl font-bold text-slate-900">Trouver un logement simplement</h1>
+        <p class="text-lg text-slate-600">Une petite agence de quartier qui vous accompagne dans vos visites.</p>
+        <a href="/offres" class="inline-block bg-slate-800 text-white px-6 py-3 rounded hover:bg-slate-700">Voir les offres disponibles</a>
+    </section>
+
+    <section class="mt-12 grid md:grid-cols-3 gap-4">
+        <div class="bg-white border border-slate-200 rounded p-5 space-y-2">
+            <h3 class="text-lg font-semibold text-slate-900">Appartements</h3>
+            <p class="text-slate-600">Petites surfaces et T2 proches des transports.</p>
+        </div>
+        <div class="bg-white border border-slate-200 rounded p-5 space-y-2">
+            <h3 class="text-lg font-semibold text-slate-900">Maisons</h3>
+            <p class="text-slate-600">Jardin, garage et vie de famille au calme.</p>
+        </div>
+        <div class="bg-white border border-slate-200 rounded p-5 space-y-2">
+            <h3 class="text-lg font-semibold text-slate-900">Investissement</h3>
+            <p class="text-slate-600">Biens simples à louer, rentabilité claire.</p>
+        </div>
+    </section>
+</Layout>
