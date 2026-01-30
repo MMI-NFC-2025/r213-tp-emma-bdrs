@@ -21,8 +21,10 @@
         const burger = document.getElementById('burger');
         const mobileNav = document.getElementById('mobile-nav');
         const toggle = () => {
-            const isOpen = mobileNav.classList.toggle('hidden');
-            burger.setAttribute('aria-expanded', (!isOpen).toString());
+            if (mobileNav) {
+                const isOpen = mobileNav.classList.toggle('hidden');
+                burger?.setAttribute('aria-expanded', (!isOpen).toString());
+            }
         };
         burger?.addEventListener('click', toggle);
     </script>
