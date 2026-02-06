@@ -1,0 +1,31 @@
+---
+import { bySurface } from '../../../backend.mjs';
+import Base from '../../../layouts/Base.astro';
+import Card from '../../../component/Card.astro';
+
+const { surface } = Astro.params;
+const surfaceValue = Number(surface);
+const isValid = Number.isFinite(surfaceValue);
+const offres = isValid ? await bySurface(surfaceValue) : [];
+const pageTitle = isValid ? `Offres > ${surfaceValue} m²` : 'Surface invalide';
+---
+
+<Base titre={pageTitle}>
+	<div class="space-y-6">
+		<h2 class="text-2xl font-semibold text-slate-900">{pageTitle}</h2>
+		{!isValid && <p class="text-slate-600">Surface non valide.</p>}
+		{isValid && offres.length === 0 && (
+			<p class="text-slate-600">Aucune offre ne correspond a cette surface.</p>
+		)}
+		{isValid && offres.length > 0 && (
+			<div class="grid md:grid-cols-3 gap-4">
+				{offres.map((offre) => (
+					<Card record={offre} />
+				))}
+			</div>
+		)}
+		<a href="/offres" class="text-sm font-semibold text-blue-600 hover:text-blue-700">
+			Retour aux offres
+		</a>
+	</div>
+</Base>

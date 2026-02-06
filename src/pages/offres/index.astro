@@ -13,6 +13,15 @@ const offres = await allMaisons();
             <p class="text-slate-600">Une petite sélection prête à visiter.</p>
         </div>
 
+        <div class="flex justify-center">
+            <a
+                href="/offres/surface/80"
+                class="inline-flex items-center rounded bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
+            >
+                Voir les offres &gt; 80 m²
+            </a>
+        </div>
+
         {offres.length > 0 ? (
             <div class="grid md:grid-cols-3 gap-4">
                 {offres.map((offre) => (
