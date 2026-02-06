@@ -1,7 +1,7 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Card from '../component/Card.astro';
-import { allMaisons } from '../backend.mjs';
+import Layout from '../../layouts/Layout.astro';
+import Card from '../../component/Card.astro';
+import { allMaisons } from '../../backend.mjs';
 
 const offres = await allMaisons();
 ---
