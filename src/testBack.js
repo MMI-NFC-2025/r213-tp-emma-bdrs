@@ -1,4 +1,18 @@
-import { allMaisons, oneID, allMaisonsFavori, allMaisonsSorted, bySurface, surfaceORprice, getAgent } from './backend.mjs' ;
+import {
+  allMaisons,
+  oneID,
+  allMaisonsFavori,
+  allMaisonsSorted,
+  bySurface,
+  surfaceORprice,
+  getAgent,
+  allMaisonsAgents,
+  allMaisonsByAgentId,
+  allMaisonsByAgentName,
+  allMaisonsSortedAgent,
+  bySurfaceAgent,
+  maisonFavoriAgent
+} from './backend.mjs' ;
 
 // Test allMaisons
 console.log("=== TEST allMaisons ===") ;
@@ -59,6 +73,61 @@ console.log("\n=== TEST getAgent ===") ;
 try {
   const record = await getAgent('leroy') ;
   console.log(JSON.stringify(record, null, 2)) ;
+} catch (e) {
+  console.error(e) ;
+}
+
+// Ajoutes aujourd'hui
+// Test allMaisonsAgents
+console.log("\n=== TEST allMaisonsAgents ===") ;
+try {
+  const records = await allMaisonsAgents() ;
+  console.log(JSON.stringify(records, null, 2)) ;
+} catch (e) {
+  console.error(e) ;
+}
+
+// Test allMaisonsByAgentId
+console.log("\n=== TEST allMaisonsByAgentId ===") ;
+try {
+  const records = await allMaisonsByAgentId('leroy') ;
+  console.log(JSON.stringify(records, null, 2)) ;
+} catch (e) {
+  console.error(e) ;
+}
+
+// Test allMaisonsByAgentName
+console.log("\n=== TEST allMaisonsByAgentName ===") ;
+try {
+  const records = await allMaisonsByAgentName('Leroy') ;
+  console.log(JSON.stringify(records, null, 2)) ;
+} catch (e) {
+  console.error(e) ;
+}
+
+// Test allMaisonsSortedAgent
+console.log("\n=== TEST allMaisonsSortedAgent ===") ;
+try {
+  const records = await allMaisonsSortedAgent() ;
+  console.log(JSON.stringify(records, null, 2)) ;
+} catch (e) {
+  console.error(e) ;
+}
+
+// Test bySurfaceAgent
+console.log("\n=== TEST bySurfaceAgent ===") ;
+try {
+  const records = await bySurfaceAgent(100, 'leroy') ;
+  console.log(JSON.stringify(records, null, 2)) ;
+} catch (e) {
+  console.error(e) ;
+}
+
+// Test maisonFavoriAgent
+console.log("\n=== TEST maisonFavoriAgent ===") ;
+try {
+  const records = await maisonFavoriAgent('leroy') ;
+  console.log(JSON.stringify(records, null, 2)) ;
 } catch (e) {
   console.error(e) ;
 }

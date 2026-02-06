@@ -53,3 +53,48 @@ export async function getAgent(id) {
   return record ;
 }
 
+
+export async function allMaisonsAgents() {
+  const records = await pb.collection('maisons').getFullList({
+    expand: 'agent'
+  }) ;
+  return records ;
+}
+
+export async function allMaisonsByAgentId(agentId) {
+  const records = await pb.collection('maisons').getFullList({
+    filter: `agent = "${agentId}"`
+  }) ;
+  return records ;
+}
+
+export async function allMaisonsByAgentName(agentName) {
+  const records = await pb.collection('maisons').getFullList({
+    expand: 'agent'
+  }) ;
+  return records.filter((record) => record.expand?.agent?.nom === agentName) ;
+}
+
+export async function allMaisonsSortedAgent() {
+  const records = await pb.collection('maisons').getFullList({
+    sort: 'agent'
+  }) ;
+  return records ;
+}
+
+export async function bySurfaceAgent(surface, agentId) {
+  const records = await pb.collection('maisons').getFullList({
+    filter: `surface > ${surface} && agent = "${agentId}"`
+  }) ;
+  return records ;
+}
+
+export async function maisonFavoriAgent(agentId) {
+  const records = await pb.collection('maisons').getFullList({
+    filter: `favoris = true && agent = "${agentId}"`
+  }) ;
+  return records ;
+}
+
+
+
