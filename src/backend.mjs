@@ -11,6 +11,15 @@ export async function oneID(id) {
   return record ;
 }
 
+export async function getOffre(id) {
+  try {
+    return await oneID(id);
+  } catch (error) {
+    console.log('Une erreur est survenue en lisant la maison', error);
+    return null;
+  }
+}
+
 export async function allMaisonsFavori() {
   const records = await pb.collection('maisons').getFullList({
     filter: 'favoris = true'

@@ -16,6 +16,7 @@ const imageFile =
     null;
 
 const imageUrl = imageFile ? await getImageUrl(record, imageFile) : null;
+const offerId = record?.id ?? record?._id ?? null;
 ---
 
 <article class="bg-white border border-slate-200 rounded overflow-hidden shadow-sm">
@@ -38,5 +39,13 @@ const imageUrl = imageFile ? await getImageUrl(record, imageFile) : null;
             )}
             {city && <span class="bg-slate-100 px-2 py-1 rounded">{city}</span>}
         </div>
+        {offerId && (
+            <a
+                href={`/offres/${offerId}`}
+                class="inline-flex items-center text-sm font-semibold text-blue-600 hover:text-blue-700"
+            >
+                Voir plus
+            </a>
+        )}
     </div>
 </article>
