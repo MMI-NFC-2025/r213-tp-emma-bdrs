@@ -3,20 +3,13 @@ import { getImageUrl } from '../backendold.mjs';
 
 const { record } = Astro.props;
 
-const title = record?.titre ?? record?.title ?? record?.nom ?? record?.name ?? 'Offre';
-const description = record?.description ?? record?.resume ?? record?.details ?? '';
-const price = record?.prix ?? record?.price ?? record?.loyer ?? record?.montant ?? null;
-const surface = record?.surface ?? record?.m2 ?? null;
-const city = record?.ville ?? record?.city ?? record?.localisation ?? record?.adresse ?? '';
-
-const imageFile =
-    (Array.isArray(record?.image) ? record.image[0] : record?.image) ??
-    (Array.isArray(record?.photo) ? record.photo[0] : record?.photo) ??
-    (Array.isArray(record?.images) ? record.images[0] : record?.images) ??
-    null;
-
-const imageUrl = imageFile ? await getImageUrl(record, imageFile) : null;
-const offerId = record?.id ?? record?._id ?? null;
+const title = record?.nomMaison ?? record?.titre ?? 'Offre';
+const description = record?.description ?? '';
+const price = record?.prix ?? null;
+const surface = record?.surface ?? null;
+const city = record?.ville ?? '';
+const imageUrl = record?.image ? await getImageUrl(record, record.image) : null;
+const offerId = record?.id ?? null;
 ---
 
 <article class="bg-white border border-slate-200 rounded overflow-hidden shadow-sm">

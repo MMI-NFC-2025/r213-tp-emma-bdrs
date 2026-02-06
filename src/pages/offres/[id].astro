@@ -4,23 +4,16 @@ import Base from '../../layouts/Base.astro';
 
 const { id } = Astro.params;
 const offre = await getOffre(id);
-
-const nomMaison = offre?.nomMaison ?? offre?.nom ?? offre?.titre ?? 'Offre';
-const adresse = offre?.adresse ?? '';
-const surface = offre?.surface ?? offre?.m2 ?? null;
-const prix = offre?.prix ?? offre?.price ?? null;
-const description = offre?.description ?? offre?.resume ?? '';
 ---
 
-<Base titre={nomMaison}>
+<Base titre={offre ? offre.nomMaison : 'Offre'}>
 	{offre ? (
 		<div class="space-y-4">
-			<h2 class="text-2xl font-semibold text-slate-900">{nomMaison}</h2>
-			{description && <p class="text-slate-700">{description}</p>}
+			<h2 class="text-2xl font-semibold text-slate-900">{offre.nomMaison}</h2>
 			<ul class="list-disc pl-5 text-slate-700 space-y-1">
-				{adresse && <li>{adresse}</li>}
-				{surface !== null && surface !== undefined && <li>{surface} m²</li>}
-				{prix !== null && prix !== undefined && <li>€{prix}</li>}
+				<li>{offre.adresse}</li>
+				<li>{offre.surface} m²</li>
+				<li>€{offre.prix}</li>
 			</ul>
 			<a href="/offres" class="text-sm font-semibold text-blue-600 hover:text-blue-700">
 				Retour aux offres

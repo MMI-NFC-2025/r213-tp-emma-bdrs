@@ -7,29 +7,25 @@ const offres = await allMaisons();
 ---
 
 <Layout titre="Offres disponibles">
-    <div class="space-y-8">
-        <div class="text-center space-y-2">
-            <h1 class="text-3xl font-bold text-slate-900">Offres disponibles</h1>
-            <p class="text-slate-600">Une petite sélection prête à visiter.</p>
-        </div>
+    <div class="space-y-6">
+        <h1 class="text-3xl font-bold text-slate-900">Offres disponibles</h1>
+        <p class="text-slate-600">Une petite selection prete a visiter.</p>
 
-        <div class="flex justify-center">
-            <a
-                href="/offres/surface/80"
-                class="inline-flex items-center rounded bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
-            >
-                Voir les offres &gt; 80 m²
-            </a>
-        </div>
+        <a
+            href="/offres/surface/80"
+            class="inline-flex items-center rounded bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
+        >
+            Voir les offres &gt; 80 m²
+        </a>
 
-        {offres.length > 0 ? (
+        {offres.length === 0 ? (
+            <p class="text-slate-500">Aucune offre disponible pour le moment.</p>
+        ) : (
             <div class="grid md:grid-cols-3 gap-4">
                 {offres.map((offre) => (
                     <Card record={offre} />
                 ))}
             </div>
-        ) : (
-            <p class="text-center text-slate-500">Aucune offre disponible pour le moment.</p>
         )}
     </div>
 </Layout>

@@ -5,19 +5,19 @@ import Card from '../../../component/Card.astro';
 
 const { surface } = Astro.params;
 const surfaceValue = Number(surface);
-const isValid = Number.isFinite(surfaceValue);
-const offres = isValid ? await bySurface(surfaceValue) : [];
-const pageTitle = isValid ? `Offres > ${surfaceValue} m²` : 'Surface invalide';
+const isNaNValue = Number.isNaN(surfaceValue);
+const offres = isNaNValue ? [] : await bySurface(surfaceValue);
+const title = isNaNValue ? 'Surface invalide' : `Offres > ${surfaceValue} m²`;
 ---
 
-<Base titre={pageTitle}>
+<Base titre={title}>
 	<div class="space-y-6">
-		<h2 class="text-2xl font-semibold text-slate-900">{pageTitle}</h2>
-		{!isValid && <p class="text-slate-600">Surface non valide.</p>}
-		{isValid && offres.length === 0 && (
+		<h2 class="text-2xl font-semibold text-slate-900">{title}</h2>
+		{isNaNValue && <p class="text-slate-600">Surface non valide.</p>}
+		{!isNaNValue && offres.length === 0 && (
 			<p class="text-slate-600">Aucune offre ne correspond a cette surface.</p>
 		)}
-		{isValid && offres.length > 0 && (
+		{offres.length > 0 && (
 			<div class="grid md:grid-cols-3 gap-4">
 				{offres.map((offre) => (
 					<Card record={offre} />
