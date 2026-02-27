@@ -77,7 +77,6 @@ try {
   console.error(e) ;
 }
 
-// Ajoutes aujourd'hui
 // Test allMaisonsAgents
 console.log("\n=== TEST allMaisonsAgents ===") ;
 try {

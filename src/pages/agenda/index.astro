@@ -1,0 +1,47 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getEvents } from '../../backend.mjs';
+
+let events = await getEvents();
+let categories = ['Tout', ...new Set(events.map((e) => e.categorie).filter(Boolean))];
+
+if (Astro.request.method === 'POST') {
+	const data = await Astro.request.formData();
+	const selectedCategory = data.get('categorie');
+
+	if (selectedCategory && selectedCategory !== 'Tout') {
+		events = events.filter((e) => e.categorie === selectedCategory);
+		categories = [selectedCategory, ...categories.filter((c) => c !== selectedCategory)];
+	}
+}
+---
+
+<Layout titre="Agenda">
+	<div class="space-y-4">
+		<h1 class="text-3xl font-bold text-slate-900">Agenda</h1>
+		<a href="/agenda/add" class="text-blue-800 underline">Ajouter un événement</a>
+
+		<form action="/agenda" method="post" class="flex items-center gap-3">
+			<label for="categorie">Filtrer par catégorie :</label>
+			<select id="categorie" name="categorie" class="border rounded p-2">
+				{categories.map((categorie) => <option value={categorie}>{categorie}</option>)}
+			</select>
+			<input type="submit" value="Filtrer" class="bg-slate-200 rounded px-3 py-2" />
+		</form>
+
+		{events.length === 0 ? (
+			<p>Aucun événement trouvé.</p>
+		) : (
+			<ul class="space-y-3">
+				{events.map((event) => (
+					<li class="rounded border border-slate-200 bg-white p-4">
+						<h2 class="text-xl font-semibold">{event.title}</h2>
+						<p class="text-sm text-slate-600">{event.categorie} · {event.lieu}</p>
+						{event.excerpt && <p class="mt-2">{event.excerpt}</p>}
+						{event.date && <p class="text-sm text-slate-500 mt-1">Date : {event.date}</p>}
+					</li>
+				))}
+			</ul>
+		)}
+	</div>
+</Layout>

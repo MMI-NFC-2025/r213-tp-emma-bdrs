@@ -1,7 +1,8 @@
-import PocketBase from 'pocketbase' ;
+import PocketBase from 'pocketbase';
+
 const pb = new PocketBase('http://127.0.0.1:8090') ;
 
-export async function getEvents() {
+async function getEvents() {
   try {
     const events = await pb.collection('events').getFullList({
       sort: '+date'
@@ -13,7 +14,7 @@ export async function getEvents() {
   }
 }
 
-export async function addEvent(data) {
+async function addEvent(data) {
   try {
     await pb.collection('events').create(data) ;
     return {
@@ -28,7 +29,7 @@ export async function addEvent(data) {
   }
 }
 
-export async function getOffres() {
+async function getOffres() {
   try {
     const records = await pb.collection('maisons').getFullList({
       sort: '-created'
@@ -40,7 +41,7 @@ export async function getOffres() {
   }
 }
 
-export async function filterByPrix(minPrix, maxPrix) {
+async function filterByPrix(minPrix, maxPrix) {
   try {
     const records = await pb.collection('maisons').getFullList({
       filter: `prix >= ${minPrix} && prix <= ${maxPrix}`,
@@ -53,7 +54,7 @@ export async function filterByPrix(minPrix, maxPrix) {
   }
 }
 
-export async function addOffre(house) {
+async function addOffre(house) {
   try {
     await pb.collection('maisons').create(house) ;
     return {
@@ -69,7 +70,7 @@ export async function addOffre(house) {
   }
 }
 
-export async function updateOffreFavori(id, favoris) {
+async function updateOffreFavori(id, favoris) {
   try {
     await pb.collection('maisons').update(id, { favoris }) ;
     return {
@@ -85,17 +86,12 @@ export async function updateOffreFavori(id, favoris) {
   }
 }
 
-export async function allMaisons() {
-  const records = await pb.collection('maisons').getFullList() ;
-  return records ;
-}
-
-export async function oneID(id) {
+async function oneID(id) {
   const record = await pb.collection('maisons').getOne(id) ;
   return record ;
 }
 
-export async function getOffre(id) {
+async function getOffre(id) {
   try {
     return await oneID(id);
   } catch (error) {
@@ -104,81 +100,11 @@ export async function getOffre(id) {
   }
 }
 
-export async function allMaisonsFavori() {
-  const records = await pb.collection('maisons').getFullList({
-    filter: 'favoris = true'
-  }) ;
-  return records ;
-}
-
-export async function allMaisonsSorted() {
-  const records = await pb.collection('maisons').getFullList({
-    sort: '+prix'
-  }) ;
-  return records ;
-}
-
-export async function bySurface(surface) {
+async function bySurface(surface) {
   const records = await pb.collection('maisons').getFullList({
     filter: `surface > ${surface}`
   }) ;
   return records ;
 }
 
-export async function surfaceORprice(surface, p) {
-  const records = await pb.collection('maisons').getFullList({
-    filter: `surface > ${surface} || prix < ${p}`
-  }) ;
-  return records ;
-}
-
-export async function getAgent(id) {
-  const record = await pb.collection('agent').getOne(id) ;
-  return record ;
-}
-
-
-export async function allMaisonsAgents() {
-  const records = await pb.collection('maisons').getFullList({
-    expand: 'agent'
-  }) ;
-  return records ;
-}
-
-export async function allMaisonsByAgentId(agentId) {
-  const records = await pb.collection('maisons').getFullList({
-    filter: `agent = "${agentId}"`
-  }) ;
-  return records ;
-}
-
-export async function allMaisonsByAgentName(agentName) {
-  const records = await pb.collection('maisons').getFullList({
-    expand: 'agent'
-  }) ;
-  return records.filter((record) => record.expand?.agent?.nom === agentName) ;
-}
-
-export async function allMaisonsSortedAgent() {
-  const records = await pb.collection('maisons').getFullList({
-    sort: 'agent'
-  }) ;
-  return records ;
-}
-
-export async function bySurfaceAgent(surface, agentId) {
-  const records = await pb.collection('maisons').getFullList({
-    filter: `surface > ${surface} && agent = "${agentId}"`
-  }) ;
-  return records ;
-}
-
-export async function maisonFavoriAgent(agentId) {
-  const records = await pb.collection('maisons').getFullList({
-    filter: `favoris = true && agent = "${agentId}"`
-  }) ;
-  return records ;
-}
-
-
-
+export { addEvent as a, addOffre as b, bySurface as c, getOffre as d, getOffres as e, filterByPrix as f, getEvents as g, updateOffreFavori as u };
