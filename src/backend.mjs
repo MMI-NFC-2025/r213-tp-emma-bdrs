@@ -137,6 +137,22 @@ export async function getAgent(id) {
   return record ;
 }
 
+export async function getAgents() {
+  try {
+    const records = await pb.collection('agent').getFullList({
+      sort: '+nom'
+    }) ;
+    return records ;
+  } catch (error) {
+    console.log('Une erreur est survenue en lisant la liste des agents', error) ;
+    return [] ;
+  }
+}
+
+export async function setFavori(house) {
+  await pb.collection('maisons').update(house.id, { favoris: !house.favoris }) ;
+}
+
 
 export async function allMaisonsAgents() {
   const records = await pb.collection('maisons').getFullList({

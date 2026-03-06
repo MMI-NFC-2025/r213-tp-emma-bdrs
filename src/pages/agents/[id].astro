@@ -1,0 +1,34 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Card from '../../component/Card.astro';
+import { allMaisonsByAgentId, getAgent } from '../../backend.mjs';
+
+const { id } = Astro.params;
+const agent = id ? await getAgent(id) : null;
+const offres = id ? await allMaisonsByAgentId(id) : [];
+---
+
+<Layout titre={agent ? `Offres de ${agent.nom ?? agent.id}` : 'Offres de l\'agent'}>
+    <div class="space-y-6">
+        <a href="/agents" class="inline-flex items-center text-sm font-semibold text-blue-600 hover:text-blue-700">
+            ← Retour à la liste des agents
+        </a>
+
+        {agent ? (
+            <>
+                <h1 class="text-3xl font-bold text-slate-900">Offres de {agent.nom ?? agent.id}</h1>
+                {offres.length === 0 ? (
+                    <p class="text-slate-500">Cet agent n'a pas encore d'offres.</p>
+                ) : (
+                    <div class="grid md:grid-cols-3 gap-4">
+                        {offres.map((offre) => (
+                            <Card record={offre} />
+                        ))}
+                    </div>
+                )}
+            </>
+        ) : (
+            <p class="text-slate-600">Agent introuvable.</p>
+        )}
+    </div>
+</Layout>

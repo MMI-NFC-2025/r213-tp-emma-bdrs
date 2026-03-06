@@ -10,35 +10,26 @@ const surface = record?.surface ?? null;
 const city = record?.ville ?? '';
 const imageUrl = record?.image ? await getImageUrl(record, record.image) : null;
 const offerId = record?.id ?? null;
-const isFavorite = Boolean(record?.favoris);
 ---
 
 <article class="bg-white border border-slate-200 rounded overflow-hidden shadow-sm">
-    {imageUrl ? (
-        <img src={imageUrl} alt={title} class="w-full h-48 object-cover" loading="lazy" />
-    ) : (
-        <div class="w-full h-48 bg-slate-100 flex items-center justify-center text-slate-400 text-sm">
-            Pas d'image
-        </div>
-    )}
+    <div class="relative">
+        {imageUrl ? (
+            <img src={imageUrl} alt={title} class="w-full h-48 object-cover" loading="lazy" />
+        ) : (
+            <div class="w-full h-48 bg-slate-100 flex items-center justify-center text-slate-400 text-sm">
+                Pas d'image
+            </div>
+        )}
+        {offerId && (
+            <button class="favoriteButton absolute bottom-0 left-0 p-2 text-white rounded-tr-lg bg-black/40" data-offre={JSON.stringify(record)}>
+                <img id="favorite-icon" src={record?.favoris ? "/favorite_filled.png" : "/favorite.png"} alt="Favorite Icon" class="w-6 h-6" />
+            </button>
+        )}
+    </div>
     <div class="p-4 space-y-2">
         <div class="flex items-start justify-between gap-2">
             <h3 class="text-lg font-semibold text-slate-900">{title}</h3>
-            {offerId && (
-                <form action="/offres" method="POST">
-                    <input type="hidden" name="actionType" value="toggleFavori" />
-                    <input type="hidden" name="offerId" value={offerId} />
-                    <input type="hidden" name="currentFavoris" value={String(isFavorite)} />
-                    <button
-                        type="submit"
-                        class="text-xl leading-none text-amber-400 hover:text-amber-500"
-                        aria-label={isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'}
-                        title={isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'}
-                    >
-                        {isFavorite ? '★' : '☆'}
-                    </button>
-                </form>
-            )}
         </div>
         {description && <p class="text-sm text-slate-600">{description}</p>}
         <div class="flex flex-wrap gap-2 text-sm text-slate-600">
@@ -60,3 +51,25 @@ const isFavorite = Boolean(record?.favoris);
         )}
     </div>
 </article>
+
+<script>
+    //@ts-nocheck
+    import { setFavori } from "../backend.mjs";
+    const favoriteButtons = document.querySelectorAll(".favoriteButton");
+
+    favoriteButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const offreData = JSON.parse(button.dataset.offre || '{}');
+            const newFavori = !offreData.favoris;
+
+            setFavori(offreData);
+
+            const favIcon = button.querySelector('#favorite-icon');
+            if (favIcon) {
+                favIcon.src = newFavori ? "/favorite_filled.png" : "/favorite.png";
+            }
+            offreData.favoris = newFavori;
+            button.dataset.offre = JSON.stringify(offreData);
+        });
+    });
+</script>

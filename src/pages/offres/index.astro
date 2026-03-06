@@ -1,48 +1,32 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Card from '../../component/Card.astro';
-import { filterByPrix, getOffres, updateOffreFavori } from '../../backend.mjs';
+import { filterByPrix, getOffres } from '../../backend.mjs';
 
 let message = '';
 let offres = [];
 
 if (Astro.request.method === 'POST') {
     const data = await Astro.request.formData();
-    const actionType = String(data.get('actionType') || '');
+    const minPrix = Number.parseInt(String(data.get('minPrix')));
+    const maxPrix = Number.parseInt(String(data.get('maxPrix')));
 
-    if (actionType === 'toggleFavori') {
-        const offerId = String(data.get('offerId') || '');
-        const currentFavoris = String(data.get('currentFavoris') || 'false') === 'true';
-
-        if (offerId) {
-            const response = await updateOffreFavori(offerId, !currentFavoris);
-            message = response.message;
+    if (
+        Number.isFinite(minPrix) &&
+        Number.isFinite(maxPrix) &&
+        minPrix > 0 &&
+        maxPrix > 0 &&
+        maxPrix > minPrix
+    ) {
+        offres = await filterByPrix(minPrix, maxPrix);
+        if (offres.length === 0) {
+            message = `Pas d'offres entre ${minPrix}€ et ${maxPrix}€`;
         } else {
-            message = 'Impossible de mettre à jour le favori.';
+            message = `Liste des offres entre ${minPrix}€ et ${maxPrix}€`;
         }
-
-        offres = await getOffres();
     } else {
-        const minPrix = Number.parseInt(String(data.get('minPrix')));
-        const maxPrix = Number.parseInt(String(data.get('maxPrix')));
-
-        if (
-            Number.isFinite(minPrix) &&
-            Number.isFinite(maxPrix) &&
-            minPrix > 0 &&
-            maxPrix > 0 &&
-            maxPrix > minPrix
-        ) {
-            offres = await filterByPrix(minPrix, maxPrix);
-            if (offres.length === 0) {
-                message = `Pas d'offres entre ${minPrix}€ et ${maxPrix}€`;
-            } else {
-                message = `Liste des offres entre ${minPrix}€ et ${maxPrix}€`;
-            }
-        } else {
-            offres = await getOffres();
-            message = 'Veuillez entrer des valeurs valides pour le prix.';
-        }
+        offres = await getOffres();
+        message = 'Veuillez entrer des valeurs valides pour le prix.';
     }
 } else {
     offres = await getOffres();
@@ -55,7 +39,6 @@ if (Astro.request.method === 'POST') {
         <p class="text-slate-600">Une petite selection prete a visiter.</p>
 
         <form action="/offres" method="POST" class="flex flex-wrap items-end gap-2">
-            <input type="hidden" name="actionType" value="filterPrix" />
             <div class="space-y-1">
                 <label for="minPrix" class="text-sm text-slate-700">Prix minimum</label>
                 <input
